@@ -92,6 +92,27 @@ exports.login = async(req, res) => {
     }
 }
 
+exports.profile = async(req,res)=>{
+    try {
+
+        const user = await User.findById(req.user._id).select('-password');
+        console.log(req.user);
+
+        res.status(200).json({
+            message: 'User profile',
+            user,
+            success: true
+        })
+
+    }
+    catch (error) {
+        res.status(500).json({
+            error: error.message,
+            success: false
+        })
+    }
+}
+
 exports.deleteProfile = async(req,res)=>{
     try {
 

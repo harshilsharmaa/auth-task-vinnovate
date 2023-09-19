@@ -105,6 +105,21 @@ describe("user", ()=>{
         })
     })
 
+    describe('User Profile', ()=>{
+        it('Get User Profile', async()=>{
+            try {
+                const res = await chai.request(`${BASE_URL}`).post('/login');                
+
+                expect(res).to.have.status(200);
+                expect(res.body).to.have.property('message').to.equal('User profile');
+                expect(res.body).to.have.property('user').to.haveOwnProperty('email').to.equal(userData.email);
+                
+            } catch (error) {
+                
+            }
+        })
+    })
+
 
     after(function(done){
         try {
