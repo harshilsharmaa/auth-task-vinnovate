@@ -96,7 +96,6 @@ exports.profile = async(req,res)=>{
     try {
 
         const user = await User.findById(req.user._id).select('-password');
-        console.log(req.user);
 
         res.status(200).json({
             message: 'User profile',
@@ -108,6 +107,22 @@ exports.profile = async(req,res)=>{
     catch (error) {
         res.status(500).json({
             error: error.message,
+            success: false
+        })
+    }
+}
+
+exports.logout = async(req,res)=>{
+    try {
+        
+        res.status(200).cookie("token", null, {expires:new Date(Date.now()), httpOnly:true}).json({
+            message: "Logout successful",
+            success: true
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message,
             success: false
         })
     }
