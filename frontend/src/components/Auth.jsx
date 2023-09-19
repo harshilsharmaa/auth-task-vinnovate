@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addUser } from '../utils/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Auth = () => {
+
+    const {user} = useSelector((store)=>store.user);
+
+    const navigate = useNavigate();
 
     const [isLogin, setIsLogin] = useState(true);
     const [name, setName] = useState('');
@@ -34,6 +39,10 @@ const Auth = () => {
     const changeType = ()=>{
         setIsLogin(!isLogin);
         setError(null)
+    }
+
+    if(user) {
+        navigate('/');
     }
 
   return (
