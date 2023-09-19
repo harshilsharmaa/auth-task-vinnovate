@@ -51,7 +51,7 @@ exports.login = async(req, res) => {
 
         if(!req.body.email || !req.body.password){
             return res.status(400).json({
-                message: 'Please fill all the fields',
+                error: 'Please fill all the fields',
                 success: false
             })
         }
@@ -59,7 +59,7 @@ exports.login = async(req, res) => {
         const {email, password} = req.body;
         const user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({
+            return res.status(404).json({
                 error: 'User with this email does not exist',
                 success: false
             })
@@ -76,7 +76,7 @@ exports.login = async(req, res) => {
         const token = user.generateAuthToken();
 
         res.cookie('token', token, {httpOnly: true, maxAge: 1000 * 60 * 60 * 24 * 7})
-        .status(201).json({
+        .status(200).json({
             message: 'User loggedIn successfully',
             user: user,
             success: true
@@ -89,5 +89,25 @@ exports.login = async(req, res) => {
             error: error.message,
             success: false
         })
+    }
+}
+
+exports.deleteProfile = async(req,res)=>{
+    try {
+
+        const {email} = req.body;
+
+        const user = await User.deleteOne({email})
+        
+        res.status(200).json({
+            message: "User Deleted",
+            success: true
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            error: error.message,
+            success: false
+        }) 
     }
 }
