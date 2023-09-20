@@ -19,7 +19,7 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const handleLogout = async()=>{
-        const {data} = await axios.get(backend_url, {
+        const {data} = await axios.get(`${backend_url}/logout`, {
             withCredentials: true
         })
         dispatch(removeUser());
